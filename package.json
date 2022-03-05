@@ -1,0 +1,22 @@
+{
+  "name": "node-course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.29.1",
+    "yargs": "^17.3.1"
+  },
+  "bin": {
+    "cmd": "./command-line/task.js"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.9"
+  }
+}
