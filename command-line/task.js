@@ -4,6 +4,7 @@ const yargs = require("yargs");
 const { hideBin } = require("yargs/helpers");
 const moment = require("moment");
 const readline = require("readline");
+const {question} = require('../utils/question');
 
 const input = readline.createInterface(process.stdin);
 
