@@ -10,11 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^4.1.2",
     "moment": "^2.29.1",
     "yargs": "^17.3.1"
   },
   "bin": {
-    "cmd": "./command-line/task.js"
+    "cmd": "./command-line/task.js",
+    "tossTheCoin": "./stream/task.js"
   },
   "devDependencies": {
     "@types/yargs": "^17.0.9"
