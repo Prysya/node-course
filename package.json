@@ -16,9 +16,11 @@
   },
   "bin": {
     "cmd": "./command-line/task.js",
-    "tossTheCoin": "./stream/task.js"
+    "tossTheCoin": "./stream/task.js",
+    "weather": "node -r dotenv/config ./http-module/task.js"
   },
   "devDependencies": {
-    "@types/yargs": "^17.0.9"
+    "@types/yargs": "^17.0.9",
+    "dotenv": "^16.0.0"
   }
 }
