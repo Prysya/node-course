@@ -4,23 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "moment": "^2.29.1",
-    "yargs": "^17.3.1"
-  },
-  "bin": {
-    "cmd": "./command-line/task.js",
-    "tossTheCoin": "./stream/task.js",
-    "weather": "node -r dotenv/config ./http-module/task.js"
-  },
   "devDependencies": {
-    "@types/yargs": "^17.0.9",
-    "dotenv": "^16.0.0"
+    "dotenv": "^16.0.0",
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "@ngneat/falso": "^3.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.3",
+    "uuid": "^8.3.2"
   }
 }
