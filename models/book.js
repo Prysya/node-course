@@ -18,6 +18,8 @@ module.exports = class {
     authors = [...Array(Math.floor(Math.random() * 3 + 1))].map(randFullName),
     favorite = randBoolean().toString(),
     fileCover = randDirectoryPath({ length: 2 }).join(""),
+    fileName = '',
+    fileBook = "",
   }) {
     this.id = id;
     this.title = title;
@@ -25,7 +27,7 @@ module.exports = class {
     this.authors = authors;
     this.favorite = favorite;
     this.fileCover = fileCover;
-    this.fileName = `book_${id}`;
-    this.fileBook = generatePathToBook(id);
+    this.fileName = fileName === "" ? `book_${id}` : fileName;
+    this.fileBook = fileBook === "" ? generatePathToBook(id) : fileBook;
   }
 };
