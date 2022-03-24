@@ -1,18 +1,17 @@
 const multer = require("multer");
 const uuid = require("uuid");
+const path = require('path');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/books");
+    cb(null, path.join(__dirname, '..', 'public', 'books'));
   },
   filename: (req, file, cb) => {
-    cb(null, `${file.originalname}_${uuid.v4()}`);
+    cb(null, `book_${uuid.v4()}${path.extname(file.originalname)}`);
   },
 });
 
 const fileFilter = (req, file, cb) => {
-  console.log(file.mimetype);
-  
   if (file.mimetype === "text/plain") {
     cb(null, true);
   } else {
