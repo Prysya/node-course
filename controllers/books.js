@@ -1,66 +1,115 @@
-const { Book } = require("../models/book");
+const { Book } = require("../models");
+const { NotFoundError, BadRequest } = require("../errors");
+const { messages } = require("../utils");
 
 let store = [...["1", "2", "3"].map((id) => new Book({ id }))];
 
-module.exports.getAllBooks = (req, res) => {
-  res.status(200).json({ status: 200, data: store });
-};
-
-module.exports.getBookById = (req, res) => {
-  const { id } = req.params;
-
-  console.log(req.params);
-
-  const book = store.find((item) => item.id === id);
-
-  if (book) {
-    return res.status(200).json({ status: 200, data: book });
+module.exports.getAllBooks = (req, res, next) => {
+  try {
+    res.status(200).json({ status: 200, data: store });
+  } catch (err) {
+    next(err);
   }
-
-  res.status(404).json({ status: 404, error: "Данные не найдены" });
 };
 
-module.exports.createNewBook = (req, res) => {
-  const newBook = new Book(req.body);
+module.exports.getBookById = (req, res, next) => {
+  try {
+    const { id } = req.params;
 
-  store.push(newBook);
+    const book = store.find((item) => item.id === id);
 
-  res.status(200).json({ status: 200, data: newBook });
+    if (book) {
+      return res.status(200).json({ status: 200, data: book });
+    }
+
+    throw new NotFoundError(messages.errors.notFound);
+  } catch (err) {
+    next(err);
+  }
 };
 
-module.exports.updateBook = (req, res) => {
-  const { id } = req.params;
+module.exports.createNewBook = (req, res, next) => {
+  try {
+    if (req.file) {
+      const { filename, path } = req.file;
 
-  const indexOfBook = store.findIndex((item) => item.id === id);
+      const newBook = new Book({ fileBook: path, fileName: filename });
 
-  if (indexOfBook !== -1) {
-    const newBook = {
-      ...store[indexOfBook],
-      ...req.body,
-    };
+      store.push(newBook);
 
-    store[indexOfBook] = newBook;
+      res.status(201).json({ status: 201, data: newBook });
+    } else {
+      throw new BadRequest(messages.errors.bookNotCreate);
+    }
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+};
 
-    return res.status(200).json({
-      status: 200,
-      data: newBook,
-      message: "Данные обновлены успешно",
+module.exports.updateBook = (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const indexOfBook = store.findIndex((item) => item.id === id);
+
+    if (indexOfBook !== -1) {
+      const newBook = {
+        ...store[indexOfBook],
+        ...req.body,
+      };
+
+      store[indexOfBook] = newBook;
+
+      return res.status(200).json({
+        status: 200,
+        data: newBook,
+        message: messages.success.dataUpdateSuccess,
+      });
+    }
+
+    throw new NotFoundError(messages.errors.notFound);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.deleteBook = (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const book = store.find((item) => item.id === id);
+
+    if (book) {
+      store = store.filter((item) => item.id !== id);
+
+      res
+        .status(200)
+        .json({ status: 200, message: messages.success.dataDeleteSuccess });
+    }
+
+    throw new NotFoundError(messages.errors.notFound);
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports.downloadBook = (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const book = store.find((item) => item.id === id);
+
+    if (!book) {
+      throw new NotFoundError(messages.errors.notFound);
+    }
+
+    res.download(book.fileBook, `book.txt`, (err) => {
+      if (err) {
+        next(err);
+      }
     });
+  } catch (err) {
+    next(err);
   }
-
-  res.status(404).json({ status: 404, error: "Данные не найдены" });
-};
-
-module.exports.deleteBook = (req, res) => {
-  const { id } = req.params;
-
-  const book = store.find((item) => item.id === id);
-
-  if (book) {
-    store = store.filter((item) => item.id !== id);
-
-    res.status(200).json({ status: 200, message: "ok" });
-  }
-
-  res.status(404).json({ status: 404, error: "Данные не найдены" });
 };

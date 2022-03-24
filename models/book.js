@@ -1,8 +1,16 @@
 const uuid = require("uuid");
 
-const {randMovie, randLine, randFullName, randDirectoryPath, randFileName, randBoolean} = require('@ngneat/falso');
+const {
+  randMovie,
+  randLine,
+  randFullName,
+  randDirectoryPath,
+  randBoolean,
+} = require("@ngneat/falso");
 
-module.exports.Book = class {
+const { generatePathToBook } = require("../utils");
+
+module.exports = class {
   constructor({
     id = uuid.v4(),
     title = randMovie(),
@@ -10,7 +18,8 @@ module.exports.Book = class {
     authors = [...Array(Math.floor(Math.random() * 3 + 1))].map(randFullName),
     favorite = randBoolean().toString(),
     fileCover = randDirectoryPath({ length: 2 }).join(""),
-    fileName = randFileName({ extension: "jpg" }),
+    fileName = '',
+    fileBook = "",
   }) {
     this.id = id;
     this.title = title;
@@ -18,6 +27,7 @@ module.exports.Book = class {
     this.authors = authors;
     this.favorite = favorite;
     this.fileCover = fileCover;
-    this.fileName = fileName;
+    this.fileName = fileName === "" ? `book_${id}` : fileName;
+    this.fileBook = fileBook === "" ? generatePathToBook(id) : fileBook;
   }
 };
