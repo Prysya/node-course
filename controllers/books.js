@@ -1,6 +1,6 @@
 const { Book } = require("../models");
-const { NotFoundError } = require("../errors");
-const { messages, generatePathToBook } = require("../utils");
+const { NotFoundError, BadRequest } = require("../errors");
+const { messages } = require("../utils");
 
 let store = [...["1", "2", "3"].map((id) => new Book({ id }))];
 
@@ -30,12 +30,19 @@ module.exports.getBookById = (req, res, next) => {
 
 module.exports.createNewBook = (req, res, next) => {
   try {
-    const newBook = new Book(req.body);
+    if (req.file) {
+      const { filename, path } = req.file;
 
-    store.push(newBook);
+      const newBook = new Book({ fileBook: path, fileName: filename });
 
-    res.status(200).json({ status: 200, data: newBook });
+      store.push(newBook);
+
+      res.status(201).json({ status: 201, data: newBook });
+    } else {
+      throw new BadRequest(messages.errors.bookNotCreate);
+    }
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
@@ -91,15 +98,17 @@ module.exports.downloadBook = (req, res, next) => {
   try {
     const { id } = req.params;
 
-    res.download(
-      generatePathToBook(id),
-      `book${id}.txt`,
-      (err) => {
-        if (err) {
-          throw err;
-        }
+    const book = store.find((item) => item.id === id);
+
+    if (!book) {
+      throw new NotFoundError(messages.errors.notFound);
+    }
+
+    res.download(book.fileBook, `book.txt`, (err) => {
+      if (err) {
+        next(err);
       }
-    );
+    });
   } catch (err) {
     next(err);
   }
