@@ -164,12 +164,9 @@ module.exports.postBookUpdate = (req, res) => {
   const { id } = req.params;
   const { title, description, authors } = req.body;
   
-  console.log(req.body)
-
   const bookIndex = store.findIndex((item) => item.id === id);
-
-  if (bookIndex) {
-    
+  
+  if (bookIndex !== -1) {
     store[bookIndex] = {
       ...store[bookIndex],
       title,
