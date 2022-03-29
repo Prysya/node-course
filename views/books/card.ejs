@@ -1,0 +1,12 @@
+<div class="col-4">
+    <div class="card" style="min-height: 260px"  title="<%= item.description %>">
+        <div class="card-body">
+            <h5 class="card-title"> <%= item.title %> </h5>
+            <h6 class="card-subtitle mb-2 text-muted"> <%= item.authors.join(', ') %> </h6>
+            <p class="card-text three-line-subtitle"> <%= item.description %> </p>
+            <hr />
+            <a href="/<%= item.id %>" class="btn btn-primary" role="button">Открыть книгу</a>
+            <a href="/<%= item.id %>/edit" class="btn btn-secondary" role="button">Изменить книгу</a>
+        </div>
+    </div>
+</div>
