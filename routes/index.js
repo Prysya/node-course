@@ -1,11 +1,15 @@
 const router = require("express").Router();
 
-const books = require("./books");
-const users = require("./users");
-const error = require("./errors");
+const viewBooks = require("./view/books");
 
-router.use("/user", users);
-router.use("/books", books);
-router.use("*", error);
+const apiBooks = require("./api/books");
+const apiUsers = require("./api/users");
+
+/* view routes */
+router.use("/", viewBooks);
+
+/* api routes */
+router.use("/api/user", apiUsers);
+router.use("/api/books", apiBooks);
 
 module.exports = router;
