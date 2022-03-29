@@ -17,7 +17,7 @@ module.exports = class {
     description = randLine({ lineCount: 2 }),
     authors = [...Array(Math.floor(Math.random() * 3 + 1))].map(randFullName),
     favorite = randBoolean().toString(),
-    fileCover = randDirectoryPath({ length: 2 }).join(""),
+    fileCover = 'https://source.unsplash.com/random/',
     fileName = '',
     fileBook = "",
   }) {

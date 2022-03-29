@@ -2,7 +2,9 @@ const { Book } = require("../models");
 const { NotFoundError, BadRequest } = require("../errors");
 const { messages } = require("../utils");
 
-let store = [...["1", "2", "3"].map((id) => new Book({ id }))];
+let store = [
+  ...[...Array(6)].map((_, index) => new Book({ id: String(index + 1) })),
+];
 
 module.exports.getAllBooks = (req, res, next) => {
   try {
@@ -112,4 +114,88 @@ module.exports.downloadBook = (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+module.exports.getAllBooksView = (req, res) => {
+  res.render("index", {
+    title: "Библиотека",
+    books: store,
+  });
+};
+
+module.exports.getBookInfo = (req, res) => {
+  const { id } = req.params;
+  
+  if (id === "404") {
+    res.render("errors/404", {
+      title: "404 | страница не найдена",
+    });
+    return;
+  }
+  
+    const book = store.find((item) => item.id === id);
+  
+    if (book) {
+      res.render("books/view", {
+        title: book.title,
+        book,
+      });
+    } else {
+      res.status(404).redirect("/404");
+    }
+};
+
+module.exports.getBookUpdate = (req, res) => {
+  const { id } = req.params;
+
+  const book = store.find((item) => item.id === id);
+
+  if (book) {
+    res.render("books/update", {
+      title: "update | " + book.title,
+      book,
+    });
+  } else {
+    res.status(404).redirect("/404");
+  }
+};
+
+module.exports.postBookUpdate = (req, res) => {
+  const { id } = req.params;
+  const { title, description, authors } = req.body;
+  
+  console.log(req.body)
+
+  const bookIndex = store.findIndex((item) => item.id === id);
+
+  if (bookIndex) {
+    
+    store[bookIndex] = {
+      ...store[bookIndex],
+      title,
+      description,
+      authors: authors.split(","),
+    };
+    
+    res.redirect("/" + id)
+  } else {
+    res.redirect("/404");
+  }
+};
+
+module.exports.getBookCreate = (req, res) => {
+  res.render("books/create", {
+    title: "create | book",
+    book: {title: "", description: '', authors: []}
+  });
+};
+
+module.exports.postBookCreate = (req, res) => {
+  const {title, description, authors} = req.body;
+  
+  const newBook = new Book({title, description, authors: authors.split(', ')});
+  
+  store.push(newBook);
+  
+  res.redirect('/' + newBook.id)
 };
