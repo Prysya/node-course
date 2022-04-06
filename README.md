@@ -1,2 +1,2 @@
-## Ссылка на деплой Heroku
-https://nodejs-express-ejs-prysya.herokuapp.com
+## Название контейнера в докер хабе
+prysya/library:1.0
