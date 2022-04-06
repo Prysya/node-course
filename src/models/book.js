@@ -4,7 +4,6 @@ const {
   randMovie,
   randLine,
   randFullName,
-  randDirectoryPath,
   randBoolean,
 } = require("@ngneat/falso");
 
