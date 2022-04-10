@@ -1,0 +1,21 @@
+version: '1.0'
+services:
+  storage:
+    image: redis:alpine
+  counter:
+    image: prysya/library-redis-mw:0.3
+    links:
+      - storage
+    ports:
+      - 3001:3001
+    environment:
+      - REDIS_URL=redis://storage
+  library:
+    build: .
+    ports:
+      - 80:3000
+    environment:
+      - COUNTER_URL=http://counter:3001
+    links:
+      - storage
+      - counter

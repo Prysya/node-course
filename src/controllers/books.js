@@ -1,3 +1,6 @@
+const http = require("http");
+const axios = require("axios");
+
 const { Book } = require("../models");
 const { NotFoundError, BadRequest } = require("../errors");
 const { messages } = require("../utils");
@@ -14,14 +17,18 @@ module.exports.getAllBooks = (req, res, next) => {
   }
 };
 
-module.exports.getBookById = (req, res, next) => {
+module.exports.getBookById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     const book = store.find((item) => item.id === id);
 
     if (book) {
-      return res.status(200).json({ status: 200, data: book });
+      await axios.post(`${process.env.COUNTER_URL}/counter/${id}/incr`);
+
+      const { data } = await axios(`${process.env.COUNTER_URL}/counter/${id}`);
+
+      return res.status(200).json({ status: 200, data: book, count: data.count });
     }
 
     throw new NotFoundError(messages.errors.notFound);
@@ -125,24 +132,24 @@ module.exports.getAllBooksView = (req, res) => {
 
 module.exports.getBookInfo = (req, res) => {
   const { id } = req.params;
-  
+
   if (id === "404") {
     res.render("errors/404", {
       title: "404 | страница не найдена",
     });
     return;
   }
-  
-    const book = store.find((item) => item.id === id);
-  
-    if (book) {
-      res.render("books/view", {
-        title: book.title,
-        book,
-      });
-    } else {
-      res.status(404).redirect("/404");
-    }
+
+  const book = store.find((item) => item.id === id);
+
+  if (book) {
+    res.render("books/view", {
+      title: book.title,
+      book,
+    });
+  } else {
+    res.status(404).redirect("/404");
+  }
 };
 
 module.exports.getBookUpdate = (req, res) => {
@@ -163,9 +170,9 @@ module.exports.getBookUpdate = (req, res) => {
 module.exports.postBookUpdate = (req, res) => {
   const { id } = req.params;
   const { title, description, authors } = req.body;
-  
+
   const bookIndex = store.findIndex((item) => item.id === id);
-  
+
   if (bookIndex !== -1) {
     store[bookIndex] = {
       ...store[bookIndex],
@@ -173,8 +180,8 @@ module.exports.postBookUpdate = (req, res) => {
       description,
       authors: authors.split(","),
     };
-    
-    res.redirect("/" + id)
+
+    res.redirect("/" + id);
   } else {
     res.redirect("/404");
   }
@@ -183,16 +190,20 @@ module.exports.postBookUpdate = (req, res) => {
 module.exports.getBookCreate = (req, res) => {
   res.render("books/create", {
     title: "create | book",
-    book: {title: "", description: '', authors: []}
+    book: { title: "", description: "", authors: [] },
   });
 };
 
 module.exports.postBookCreate = (req, res) => {
-  const {title, description, authors} = req.body;
-  
-  const newBook = new Book({title, description, authors: authors.split(', ')});
-  
+  const { title, description, authors } = req.body;
+
+  const newBook = new Book({
+    title,
+    description,
+    authors: authors.split(", "),
+  });
+
   store.push(newBook);
-  
-  res.redirect('/' + newBook.id)
+
+  res.redirect("/" + newBook.id);
 };
