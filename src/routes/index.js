@@ -1,15 +1,23 @@
-const router = require("express").Router();
+const router = require('express').Router();
 
-const viewBooks = require("./view/books");
+const { getAllBooksView } = require('../controllers/booksView');
 
-const apiBooks = require("./api/books");
-const apiUsers = require("./api/users");
+const viewBooks = require('./view/books');
+
+const apiBooks = require('./api/books');
+const apiUsers = require('./api/users');
+const errorRoute  = require('./errors');
+
+/* index route */
+router.get('/', getAllBooksView);
 
 /* api routes */
-router.use("/api/user", apiUsers);
-router.use("/api/books", apiBooks);
+router.use('/api/user', apiUsers);
+router.use('/api/books', apiBooks);
 
 /* view routes */
-router.use("/", viewBooks);
+router.use('/books', viewBooks);
+
+router.use(errorRoute)
 
 module.exports = router;

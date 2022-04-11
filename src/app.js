@@ -1,29 +1,62 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
+const mongoose = require('mongoose');
 
-const router = require("./routes");
-const { errorHandler } = require("./middlewares");
+const middlewareRouter = require('./middlewares');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const errorHandler = require('./middlewares/errorHandler');
 
-require("dotenv").config();
+const router = require('./routes');
 
-const { PORT = 3000 } = process.env;
+require('dotenv').config();
 
+/**
+ * Variables
+ * */
+const {
+  PORT = 3000,
+  DB_USERNAME = 'root',
+  DB_PASSWORD = 'password',
+  DB_NAME = 'library_database',
+  DB_HOST = 'mongodb://localhost:27017/',
+} = process.env;
+
+/**
+ * Server variable
+ * */
 const app = express();
 
-app.use(express.json());
-app.use(
-  express.urlencoded({
-    extended: false,
-  })
-);
+/**
+ * View engine
+ * */
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-
+/**
+ * Routes
+ * */
+app.use(middlewareRouter);
+app.use(requestLogger);
 app.use(router);
-
+app.use(errorLogger);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Слушаю порт ${PORT}`);
-});
+(async () => {
+  try {
+    await mongoose.connect(DB_HOST, {
+      user: DB_USERNAME,
+      pass: DB_PASSWORD,
+      dbName: DB_NAME,
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    })
+  } catch (e) {
+    console.log(e);
+  }
+})()
+
+// start();

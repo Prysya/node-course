@@ -1,20 +1,17 @@
 const router = require("express").Router();
 
 const {
-  getAllBooksView,
   getBookInfo,
-  getBookUpdate,
   getBookCreate,
   postBookUpdate,
   postBookCreate
-} = require("../../controllers/books");
+} = require("../../controllers/booksView");
 
-router.get("/", getAllBooksView);
 router.get("/create", getBookCreate);
 router.post("/create", postBookCreate);
 
-router.get("/:id", getBookInfo);
-router.get("/:id/edit", getBookUpdate);
+router.get("/:id", getBookInfo(false));
+router.get("/:id/edit", getBookInfo(true));
 
 router.post("/:id/edit", postBookUpdate);
 
