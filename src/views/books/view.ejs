@@ -7,9 +7,9 @@
         <div class="card-body">
             <h2 class="card-title"><%= book.title %></h2>
             <p class="card-text"> <%= book.description %> </p>
-            <p class="card-text"><small class="text-muted"> <%= book.authors.join(', ') %> </small></p>
+            <p class="card-text"><small class="text-muted"> <%= book.authors %> </small></p>
             <hr />
-            <a href="/<%= book.id %>/edit" class="btn btn-secondary" role="button">Изменить книгу</a>
+            <a href="/books/<%= book._id %>/edit" class="btn btn-secondary" role="button">Изменить книгу</a>
         </div>
     </div>
 </div>

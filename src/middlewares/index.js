@@ -1,7 +1,7 @@
-const multer = require("./multer");
-const errorHandler = require("./errorHandler");
+const router = require('express').Router();
 
-module.exports = {
-  multer,
-  errorHandler,
-};
+const parsers = require('./parsers');
+
+router.use(parsers);
+
+module.exports = router;

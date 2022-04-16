@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const fileMiddleware  = require("../../middlewares/multer");
 
 const {
   getAllBooks,
@@ -7,14 +6,12 @@ const {
   createNewBook,
   updateBook,
   deleteBook,
-  downloadBook,
-} = require("../../controllers/books");
+} = require("../../controllers/booksApi");
 
 router.get("/", getAllBooks);
 router.get("/:id", getBookById);
-router.get("/:id/download", downloadBook);
 
-router.post("/", fileMiddleware.single("filedata"), createNewBook);
+router.post("/", createNewBook);
 
 router.put("/:id", updateBook);
 
