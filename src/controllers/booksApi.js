@@ -1,7 +1,6 @@
 const uuid = require('uuid');
-
+const createError = require('http-errors');
 const Books = require('../models/books');
-const { NotFoundError } = require('../errors');
 const { messages } = require('../utils');
 
 module.exports.getAllBooks = async (req, res, next) => {
@@ -21,7 +20,7 @@ module.exports.getBookById = async (req, res, next) => {
     const book = await Books.findById(id).select('-__v');
 
     if (!book) {
-      throw new NotFoundError(messages.errors.notFound);
+      throw createError(404, messages.errors.notFound);
     }
 
     res.status(200).json({ status: 200, data: book });

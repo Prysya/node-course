@@ -1,0 +1,31 @@
+<%- include("../layout/layoutTop", {title: title}) %>
+<%- include("../layout/menu", {additionalStyles: "img js-fullheight", isAuthenticated}) %>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="login-wrap p-0">
+                    <h3 class="mb-4 text-center"><%= formTitle %></h3>
+                    <form method="POST" class="signin-form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Логин" name='username' required>
+                        </div>
+                        <div class="form-group">
+                            <input id="password-field" type="password" class="form-control" name='password' placeholder="Пароль" required>
+                            <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="form-control btn btn-primary submit px-3"><%= buttonTitle %></button>
+                        </div>
+                        <% if (error) { %>
+                            <h5 class="text-center text-info"><%= error %></h5>
+                        <% } %>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include("../layout/layoutEnd") %>

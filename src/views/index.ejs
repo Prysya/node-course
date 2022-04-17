@@ -1,14 +1,12 @@
 <%- include("./layout/layoutTop", {title: title}) %>
-<%- include("./layout/menu") %>
+<%- include("./layout/menu", {additionalStyles: ""}) %>
 
-<div class="jumbotron jumbotron-fluid">
-    <div class="container">
-        <ul class="row gy-5 align-items-stretch">
+<div class="container container-fluid pt-3">
+    <ul class="row row-cards">
             <% books.map((item) => { %>
-                <%- include("./books/card", { item }) %>
+                <%- include("./books/cardNew", { item }) %>
             <%  }); %>
         </ul>
-    </div>
 </div>
 
 <%- include("./layout/layoutEnd") %>

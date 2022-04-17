@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const middlewareRouter = require('./middlewares');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
+const expressSession = require('./middlewares/expressSession');
+const { passport } = require('./middlewares/passport');
 
 const router = require('./routes');
 
@@ -18,13 +20,14 @@ const {
   DB_USERNAME = 'root',
   DB_PASSWORD = 'password',
   DB_NAME = 'library_database',
-  DB_HOST = 'mongodb://localhost:27017/',
+  DB_HOST = 'mongodb://localhost:27017',
 } = process.env;
 
 /**
  * Server variable
  * */
 const app = express();
+app.use(express.static(__dirname + '/public'));
 
 /**
  * View engine
@@ -35,9 +38,15 @@ app.set('views', path.join(__dirname, 'views'));
 /**
  * Routes
  * */
+app.use(expressSession);
+app.use(passport);
+
 app.use(middlewareRouter);
+
 app.use(requestLogger);
+
 app.use(router);
+
 app.use(errorLogger);
 app.use(errorHandler);
 
@@ -48,15 +57,13 @@ app.use(errorHandler);
       pass: DB_PASSWORD,
       dbName: DB_NAME,
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     });
-    
+
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
-    })
+    });
   } catch (e) {
     console.log(e);
   }
-})()
-
-// start();
+})();

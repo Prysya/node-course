@@ -8,13 +8,15 @@ const {
   deleteBook,
 } = require("../../controllers/booksApi");
 
-router.get("/", getAllBooks);
-router.get("/:id", getBookById);
+const routes = require('../../config/routes');
 
-router.post("/", createNewBook);
+router.get(routes.basePath, getAllBooks);
+router.get(routes.books.bookId, getBookById);
 
-router.put("/:id", updateBook);
+router.post(routes.basePath, createNewBook);
 
-router.delete("/:id", deleteBook);
+router.put(routes.books.bookId, updateBook);
+
+router.delete(routes.books.bookId, deleteBook);
 
 module.exports = router;

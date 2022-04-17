@@ -3,7 +3,8 @@ module.exports = (err, req, res, next) => {
   
   res.status(statusCode).render("errors/404", {
     title: "404 | страница не найдена",
-    message
+    message,
+    isAuthenticated: req.isAuthenticated && req.isAuthenticated()
   });
 
   next();
