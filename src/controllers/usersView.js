@@ -68,7 +68,7 @@ module.exports.createUserView = async (req, res) => {
       password: hash,
     });
 
-    return res.status(201).redirect(routes.user.userPage);
+    return res.status(201).redirect(routes.user.basePath + routes.user.userPage);
   } catch (err) {
     res.render('user/userForm', {
       title: 'Регистрация',
