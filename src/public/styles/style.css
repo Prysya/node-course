@@ -288,6 +288,15 @@ body .no-scroll {
   margin-bottom: 50px;
   box-shadow: 0 2px 14px 0 rgba(47, 60, 83, 0.16);
 }
+.card_type_chat {
+  margin-bottom: 0;
+}
+
+#chat{
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
 .card .card-body {
   padding: 30px 20px;
 }
@@ -670,4 +679,8 @@ hr.tg-hr {
 
 .stats span {
   font-size: 29px;
+}
+
+.chat-message:nth-child(2n) {
+  background-color: lightgray;
 }
