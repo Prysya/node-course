@@ -85,3 +85,21 @@ module.exports.deleteBook = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.handleSocketConnection = (socket) => {
+  const {id} = socket;
+  console.log(`Socket connected: ${id}`);
+  
+  const {roomName} = socket.handshake.query;
+  socket.join(roomName);
+  
+  socket.on('message', (msg) => {
+    msg.type = `room: ${roomName}`;
+    socket.to(roomName).emit('message', msg);
+    socket.emit('message', msg);
+  });
+  
+  socket.on('disconnect', () => {
+    console.log(`Socket disconnected: ${id}`);
+  });
+}
