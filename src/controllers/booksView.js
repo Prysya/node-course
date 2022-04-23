@@ -30,15 +30,14 @@ module.exports.getBookInfo = (isUpdate) => async (req, res, next) => {
       res.render('books/update', {
         title: 'update | ' + book.title,
         book,
-        isAuthenticated: req.isAuthenticated && req.isAuthenticated()
-  
+        isAuthenticated: req.isAuthenticated && req.isAuthenticated(),
       });
     } else {
       res.render('books/view', {
         title: book.title,
         book,
-        isAuthenticated: req.isAuthenticated && req.isAuthenticated()
-  
+        isAuthenticated: req.isAuthenticated && req.isAuthenticated(),
+        user: req.user
       });
     }
   } catch (err) {
