@@ -7,6 +7,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/errorHandler');
 const expressSession = require('./middlewares/expressSession');
 const { passport } = require('./middlewares/passport');
+const { handleSocketConnection } = require('./controllers/booksApi');
 
 const router = require('./routes');
 
@@ -27,6 +28,12 @@ const {
  * Server variable
  * */
 const app = express();
+
+const server = require('http').createServer(app);
+
+const { Server } = require('socket.io');
+const io = new Server(server);
+
 app.use(express.static(__dirname + '/public'));
 
 /**
@@ -47,6 +54,8 @@ app.use(requestLogger);
 
 app.use(router);
 
+io.on('connection', handleSocketConnection);
+
 app.use(errorLogger);
 app.use(errorHandler);
 
@@ -60,7 +69,7 @@ app.use(errorHandler);
       useUnifiedTopology: true,
     });
 
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (e) {
