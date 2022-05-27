@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "system",
+    "rootDir": "./src" ,
+    "outDir": "./src",
+    "outFile": "./src/app.js",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+  }
+}
