@@ -4,9 +4,8 @@ import type { HttpError } from 'http-errors';
 
 import { User } from 'models';
 import { routes } from 'config';
-import type { ExpressMiddleware, ExpressResponse } from 'types';
 
-export const getLoginPage: ExpressMiddleware = async (req, res, next) => {
+export const getLoginPage = async (req, res, next) => {
   try {
     res.render('user/userForm', {
       title: 'Вход в личный кабинет',
@@ -20,7 +19,7 @@ export const getLoginPage: ExpressMiddleware = async (req, res, next) => {
   }
 };
 
-export const postUserLogin: ExpressResponse = async (req, res) => {
+export const postUserLogin = async (req, res) => {
   try {
     return res.redirect('/');
   } catch (err) {
@@ -36,7 +35,7 @@ export const postUserLogin: ExpressResponse = async (req, res) => {
   }
 };
 
-export const getSignupPage: ExpressMiddleware = async (req, res, next) => {
+export const getSignupPage = async (req, res, next) => {
   try {
     res.render('user/userForm', {
       title: 'Регистрация',
@@ -50,7 +49,7 @@ export const getSignupPage: ExpressMiddleware = async (req, res, next) => {
   }
 };
 
-export const getUserProfile: ExpressMiddleware = async (req, res, next) => {
+export const getUserProfile = async (req, res, next) => {
   try {
     res.render('user/userPage', {
       title: 'Профиль',
@@ -62,7 +61,7 @@ export const getUserProfile: ExpressMiddleware = async (req, res, next) => {
   }
 };
 
-export const createUserView: ExpressResponse = async (req, res) => {
+export const createUserView = async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -88,7 +87,7 @@ export const createUserView: ExpressResponse = async (req, res) => {
   }
 };
 
-export const logout: ExpressResponse = async (req, res) => {
+export const logout = async (req, res) => {
   req.logout(null);
   res.redirect('/');
 };

@@ -24,7 +24,6 @@
     "noImplicitReturns": true,
     "noImplicitAny": false,
     "noImplicitThis": false,
-    "typeRoots": ["./node_modules/@types", "./src/types"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

@@ -4,19 +4,16 @@ import bcrypt from 'bcryptjs';
 
 import { User } from 'models';
 import { messages } from 'utils';
-import { ExpressMiddleware } from 'types';
 
-import { Request } from 'express';
+// declare module 'express' {
+//   export interface Request {
+//     user: any;
+//     isAuthenticated: any;
+//     logout: any;
+//   }
+// }
 
-declare module 'express' {
-  export interface Request {
-    user: any;
-    isAuthenticated: any;
-    logout: any;
-  }
-}
-
-export const getUserInfo: ExpressMiddleware = async (req, res, next) => {
+export const getUserInfo = async (req, res, next) => {
   try {
     res.status(200).send({ status: '200', data: { ...req.user } });
   } catch (err) {
@@ -24,7 +21,7 @@ export const getUserInfo: ExpressMiddleware = async (req, res, next) => {
   }
 };
 
-export const createUser: ExpressMiddleware = async (req, res, next) => {
+export const createUser = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 

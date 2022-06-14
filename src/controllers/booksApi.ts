@@ -4,9 +4,7 @@ import createError from 'http-errors';
 import { Books } from 'models';
 import { messages } from 'utils';
 
-import type { ExpressMiddleware, SocketMiddleware } from 'types';
-
-export const getAllBooks: ExpressMiddleware = async (req, res, next) => {
+export const getAllBooks = async (req, res, next) => {
   try {
     const books = await Books.find().select('-__v');
 
@@ -16,7 +14,7 @@ export const getAllBooks: ExpressMiddleware = async (req, res, next) => {
   }
 };
 
-export const getBookById: ExpressMiddleware = async (req, res, next) => {
+export const getBookById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -32,7 +30,7 @@ export const getBookById: ExpressMiddleware = async (req, res, next) => {
   }
 };
 
-export const createNewBook: ExpressMiddleware = async (req, res, next) => {
+export const createNewBook = async (req, res, next) => {
   try {
     const { title, description, authors, favorite, fileName, fileBook } =
       req.body;
@@ -55,7 +53,7 @@ export const createNewBook: ExpressMiddleware = async (req, res, next) => {
   }
 };
 
-export const updateBook: ExpressMiddleware = async (req, res, next) => {
+export const updateBook = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -74,7 +72,7 @@ export const updateBook: ExpressMiddleware = async (req, res, next) => {
   }
 };
 
-export const deleteBook: ExpressMiddleware = async (req, res, next) => {
+export const deleteBook = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -90,7 +88,7 @@ export const deleteBook: ExpressMiddleware = async (req, res, next) => {
   }
 };
 
-export const handleSocketConnection: SocketMiddleware = (socket) => {
+export const handleSocketConnection = (socket) => {
   const { id } = socket;
   console.log(`Socket connected: ${id}`);
 

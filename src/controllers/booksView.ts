@@ -1,9 +1,7 @@
-import type { ExpressMiddleware, ExpressResponse } from 'types';
-
 import { Books } from 'models';
 import uuid from 'uuid';
 
-export const getAllBooksView: ExpressMiddleware = async (req, res, next) => {
+export const getAllBooksView = async (req, res, next) => {
   try {
     const books = await Books.find().select('-__v');
 
@@ -18,7 +16,7 @@ export const getAllBooksView: ExpressMiddleware = async (req, res, next) => {
 };
 
 export const getBookInfo =
-  (isUpdate: Boolean): ExpressMiddleware =>
+  (isUpdate: Boolean) =>
   async (req, res, next) => {
     const { id } = req.params;
 
@@ -48,7 +46,7 @@ export const getBookInfo =
     }
   };
 
-export const postBookUpdate: ExpressMiddleware = async (req, res, next) => {
+export const postBookUpdate = async (req, res, next) => {
   const { id } = req.params;
 
   try {
@@ -69,7 +67,7 @@ export const postBookUpdate: ExpressMiddleware = async (req, res, next) => {
   }
 };
 
-export const getBookCreate: ExpressResponse = async (req, res) => {
+export const getBookCreate = async (req, res) => {
   res.render('books/create', {
     title: 'create | book',
     book: { title: '', description: '', authors: [] },
@@ -77,7 +75,7 @@ export const getBookCreate: ExpressResponse = async (req, res) => {
   });
 };
 
-export const postBookCreate: ExpressMiddleware = async (req, res, next) => {
+export const postBookCreate = async (req, res, next) => {
   try {
     const { title, description, authors } = req.body;
 

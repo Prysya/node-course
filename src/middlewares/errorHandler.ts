@@ -1,11 +1,8 @@
-import { NextFunction, Request, Response, ErrorRequestHandler } from 'express';
-import type { HttpError } from 'http-errors';
-
 export const errorHandlerMiddleware = (
-  err: null | HttpError,
-  req: Request,
-  res: Response,
-  next: NextFunction,
+  err,
+  req,
+  res,
+  next,
 ) => {
   const { statusCode = 500, message } = err;
 
