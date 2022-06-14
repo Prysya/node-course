@@ -1,16 +1,19 @@
-import express from 'express';
-import { container } from '../../containers/container';
-import { BooksRepository } from '../../models/booksRepository';
+import { Router } from 'express';
 
-const router = express.Router();
+import { container } from 'containers';
+import { BooksRepository } from 'models';
 
-router.get(":id", async (req, res, next) => {
+const booksRepositoryApiRouter = Router();
+
+booksRepositoryApiRouter.get(':id', async (req, res, next) => {
   try {
     const repo = container.get(BooksRepository);
     const book = await repo.getBook(req.params.id);
 
-    res.status(200).json(book)
+    res.status(200).json(book);
   } catch (err) {
-    next(err)
+    next(err);
   }
-})
+});
+
+export { booksRepositoryApiRouter };

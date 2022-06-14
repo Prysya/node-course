@@ -1,9 +1,12 @@
-const uuid = require('uuid');
-const createError = require('http-errors');
-const Books = require('../models/books');
-const { messages } = require('../utils');
+import uuid from 'uuid';
+import createError from 'http-errors';
 
-module.exports.getAllBooks = async (req, res, next) => {
+import { Books } from 'models';
+import { messages } from 'utils';
+
+import type { ExpressMiddleware, SocketMiddleware } from 'types';
+
+export const getAllBooks: ExpressMiddleware = async (req, res, next) => {
   try {
     const books = await Books.find().select('-__v');
 
@@ -13,7 +16,7 @@ module.exports.getAllBooks = async (req, res, next) => {
   }
 };
 
-module.exports.getBookById = async (req, res, next) => {
+export const getBookById: ExpressMiddleware = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -29,9 +32,10 @@ module.exports.getBookById = async (req, res, next) => {
   }
 };
 
-module.exports.createNewBook = async (req, res, next) => {
+export const createNewBook: ExpressMiddleware = async (req, res, next) => {
   try {
-    const { title, description, authors, favorite, fileName, fileBook } = req.body;
+    const { title, description, authors, favorite, fileName, fileBook } =
+      req.body;
 
     const newBook = new Books({
       id: uuid.v4(),
@@ -51,7 +55,7 @@ module.exports.createNewBook = async (req, res, next) => {
   }
 };
 
-module.exports.updateBook = async (req, res, next) => {
+export const updateBook: ExpressMiddleware = async (req, res, next) => {
   try {
     const { id } = req.params;
 
@@ -60,7 +64,7 @@ module.exports.updateBook = async (req, res, next) => {
       returnDocument: 'after',
     });
 
-    return res.status(201).json({
+    res.status(201).json({
       status: 201,
       data: newBook,
       message: messages.success.dataUpdateSuccess,
@@ -70,36 +74,36 @@ module.exports.updateBook = async (req, res, next) => {
   }
 };
 
-module.exports.deleteBook = async (req, res, next) => {
+export const deleteBook: ExpressMiddleware = async (req, res, next) => {
   try {
     const { id } = req.params;
 
     await Books.deleteOne({ _id: id });
-  
-    return res.status(200).json({
+
+    res.status(200).json({
       status: 200,
       message: messages.success.dataDeleteSuccess,
-      ok: 'ok'
+      ok: 'ok',
     });
   } catch (err) {
     next(err);
   }
 };
 
-module.exports.handleSocketConnection = (socket) => {
-  const {id} = socket;
+export const handleSocketConnection: SocketMiddleware = (socket) => {
+  const { id } = socket;
   console.log(`Socket connected: ${id}`);
-  
-  const {roomName} = socket.handshake.query;
+
+  const { roomName } = socket.handshake.query;
   socket.join(roomName);
-  
+
   socket.on('message', (msg) => {
     msg.type = `room: ${roomName}`;
     socket.to(roomName).emit('message', msg);
     socket.emit('message', msg);
   });
-  
+
   socket.on('disconnect', () => {
     console.log(`Socket disconnected: ${id}`);
   });
-}
+};

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "baseUrl": "src",
+    "target": "es6",
     "lib": ["es6", "dom"],
     "types": ["reflect-metadata"],
     "module": "commonjs",
@@ -12,6 +13,19 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "strictNullChecks": false
-  }
+    "strictNullChecks": false,
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    "importHelpers": true,
+    "alwaysStrict": true,
+    "sourceMap": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }

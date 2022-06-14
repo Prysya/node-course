@@ -1,4 +1,4 @@
-import { IBook } from '../interface/IBook';
+import { IBook } from 'types';
 
 export class BooksRepository {
   async createBook(book: IBook) {}

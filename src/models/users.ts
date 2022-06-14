@@ -1,19 +1,20 @@
-const { Schema, model } = require('mongoose');
-const createError = require('http-errors');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-const uniqueValidator = require('mongoose-unique-validator');
+import { Schema, model } from 'mongoose';
+import createError from 'http-errors';
+import validator from 'validator';
+import bcrypt from 'bcryptjs';
+import uniqueValidator from 'mongoose-unique-validator';
 
-const { messages } = require('../utils');
+import { messages } from 'utils';
+import type { IUser, IUserDocument, IUserModel } from 'types';
 
-const userSchema = new Schema({
+const userSchema = new Schema<IUserDocument>({
   username: {
     type: String,
     required: [true, messages.user.nameIsLongOrShort],
     minlength: 2,
     maxlength: 30,
     validate: {
-      validator(name) {
+      validator(name: string) {
         return !validator.isEmpty(name, { ignore_whitespace: true });
       },
       message: messages.schemas.isEmpty,
@@ -28,17 +29,10 @@ const userSchema = new Schema({
   },
 });
 
-/**
- *
- * @memberOf User
- */
-userSchema.statics.findUserByCredentials = function (
-  username,
-  password,
-) {
+userSchema.statics.findUserByCredentials = function (username, password) {
   return this.findOne({ username })
     .select('+password')
-    .then((user) => {
+    .then((user: IUser) => {
       if (!user) {
         throw createError(401, messages.auth.wrongUsernameOrPassword);
       }
@@ -50,14 +44,11 @@ userSchema.statics.findUserByCredentials = function (
 
         return user;
       });
-    })
+    });
 };
 
 userSchema.plugin(uniqueValidator, {
   message: messages.auth.usernameIsNotUnique,
 });
 
-/** @class User */
-const User = model('User', userSchema);
-
-module.exports = User;
+export const User = model<IUserDocument, IUserModel>('User', userSchema);

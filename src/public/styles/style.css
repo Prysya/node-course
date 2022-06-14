@@ -292,7 +292,7 @@ body .no-scroll {
   margin-bottom: 0;
 }
 
-#chat{
+#chat {
   max-height: 250px;
   overflow-y: scroll;
 }

@@ -1,4 +1,4 @@
-module.exports = {
+export const messages = {
   errors: {
     notFound: 'Запрашиваемый ресурс не найден',
     bookNotCreate: 'Ошибка при создании книги',
@@ -26,4 +26,4 @@ module.exports = {
     registrationIsSuccess: 'Регистрация прошла успешно',
     usernameIsNotUnique: 'Данный username уже зарегистрирован',
   },
-};
+} as const;
