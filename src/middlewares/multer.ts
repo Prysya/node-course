@@ -1,5 +1,5 @@
 import multer from 'multer';
-import { Request } from 'express';
+import type { Request } from 'express';
 import uuid from 'uuid';
 import path from 'path';
 
