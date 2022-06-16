@@ -14,7 +14,7 @@
       "models/*": ["./models/*"],
       "routes/*": ["./routes/*"],
       "types/*": ["./types/*"],
-      "utils/*": ["./utils/*"],
+      "utils/*": ["./utils/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -33,8 +33,9 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitAny": false,
-    "noImplicitThis": false,
+    "noImplicitThis": false
   },
   "include": ["src/**/*"],
+  "hooks": ["copy-files"],
   "exclude": ["node_modules"]
 }
