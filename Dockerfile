@@ -1,12 +1,23 @@
-FROM node:16.14
 
-WORKDIR /app
+FROM node:16.15 AS build
+WORKDIR /usr/src/app
+
+COPY package.json .
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+FROM node:16.15
+WORKDIR /usr/src/app
+
+COPY package.json .
 
 ARG NODE_ENV=production
 
-COPY ./package*.json ./
 RUN npm install
-COPY src/ ./src
+
+COPY --from=build /usr/src/app/dist dist
 
 EXPOSE 3000
 
