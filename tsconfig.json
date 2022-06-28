@@ -1,41 +1,7 @@
 {
   "compilerOptions": {
-    "baseUrl": "src",
     "target": "es6",
-    "lib": ["es6", "dom"],
-    "types": ["reflect-metadata"],
     "module": "commonjs",
-    "moduleResolution": "node",
-    "paths": {
-      "config/*": ["./config/*"],
-      "containers/*": ["./containers/*"],
-      "controllers/*": ["./controllers/*"],
-      "middlewares/*": ["./middlewares/*"],
-      "models/*": ["./models/*"],
-      "routes/*": ["./routes/*"],
-      "types/*": ["./types/*"],
-      "utils/*": ["./utils/*"]
-    },
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "strictNullChecks": false,
-    "rootDir": "./src",
-    "outDir": "./dist",
-
-    "importHelpers": true,
-    "alwaysStrict": true,
-    "sourceMap": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "noImplicitAny": false,
-    "noImplicitThis": false
-  },
-  "include": ["src/**/*"],
-  "hooks": ["copy-files"],
-  "exclude": ["node_modules"]
+    "sourceMap": true
+  }
 }
