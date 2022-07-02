@@ -22,10 +22,3 @@ export class HttpExceptionFilter implements ExceptionFilter {
     });
   }
 }
-
-/*
-   timestamp: ..., // дата и время
-    status: "fail",
-    data: ..., // сведения об ошибке
-    code: ..., // код ошибки при наличии в объекте ошибки. В случае отсутствия, по умолчанию code = 500
-* */
