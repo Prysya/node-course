@@ -1,10 +1,10 @@
-import {  Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 
 import type { TokenPayload } from './interfaces/token-payload.interface';
 import { ConfigService } from '@nestjs/config';
-import { CreateUserDto } from 'src/modules/users/dto/create-user.dto';
+import { CreateUserDto } from '../users/dto/create-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +25,10 @@ export class AuthService {
     return null;
   }
 
-  async validateUserLocal(email: string, password: string): Promise<Omit<CreateUserDto, 'password'> | null> {
+  async validateUserLocal(
+    email: string,
+    password: string,
+  ): Promise<Omit<CreateUserDto, 'password'> | null> {
     const user = await this.usersService.findUser(email, password);
 
     if (user) {

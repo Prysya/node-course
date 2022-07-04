@@ -8,6 +8,6 @@ export class IdValidationPipe implements PipeTransform<string> {
       return value;
     }
 
-    throw new BadRequestException('id не валиден')
+    throw new BadRequestException('id не валиден');
   }
 }
