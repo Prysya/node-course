@@ -10,6 +10,7 @@ import { HttpExceptionFilter } from './common/exceptions/httpException.filter';
 
   app.useGlobalInterceptors(new RequestInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.setGlobalPrefix('api')
 
   const PORT = configService.get<number>('PORT') ?? 3000;
 
