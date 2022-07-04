@@ -1,16 +1,18 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, UsePipes, UseGuards } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { IdValidationPipe } from '../../common/pipes/idValidation.pipe';
 import { JoiValidationPipe } from '../../common/pipes/joiValidation.pipe';
 import { createBookSchema } from '../../modules/books/joi/createBook.schema';
+import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 
 @Controller('books')
 export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.booksService.findAll();
   }
