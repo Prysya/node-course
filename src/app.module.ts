@@ -9,11 +9,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri:
-          configService.get<string>('DB_HOST') ?? 'mongodb://localhost:27017',
-        user: configService.get<string>('DB_USERNAME') ?? 'root',
-        pass: configService.get<string>('DB_PASSWORD') ?? 'password',
-        dbName: configService.get<string>('DB_NAME') ?? 'library_database',
+        uri: configService.get<string>('NODE_ENV') === 'test'
+          ? configService.get<string>('DB_TEST_HOST')
+          : configService.get<string>('DB_HOST'),
+        user: configService.get<string>('DB_USERNAME'),
+        pass: configService.get<string>('DB_PASSWORD'),
+        dbName: configService.get<string>('DB_NAME'),
       }),
       inject: [ConfigService],
     }),

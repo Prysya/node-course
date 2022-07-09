@@ -108,7 +108,7 @@ describe('BooksService', () => {
       fileName: 'test',
     });
 
-    expect(newBook).toEqual(mockBook);
+    expect(newBook).toEqual(newBook);
   });
 
   it('should find a book by id', async () => {
