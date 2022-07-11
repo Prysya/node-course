@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 import { RequestInterceptor } from './common/interceptors/request.interceptor';
 import { HttpExceptionFilter } from './common/exceptions/httpException.filter';
+import { RedisIoAdapter } from './common/adapters/redisIo.adapter';
 
 (async () => {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +12,10 @@ import { HttpExceptionFilter } from './common/exceptions/httpException.filter';
   app.useGlobalInterceptors(new RequestInterceptor());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.setGlobalPrefix('api');
+
+  const redisIoAdapter = new RedisIoAdapter(app);
+  await redisIoAdapter.connectToRedis();
+  app.useWebSocketAdapter(redisIoAdapter);
 
   const PORT = configService.get<number>('PORT') ?? 3000;
 
