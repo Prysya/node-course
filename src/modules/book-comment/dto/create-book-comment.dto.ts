@@ -1,5 +1,5 @@
 export class CreateBookCommentDto {
-  id: number;
-  bookId: number;
+  id: string;
+  bookId: string;
   comment: string;
 }

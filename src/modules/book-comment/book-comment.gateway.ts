@@ -1,7 +1,9 @@
 import {
   WebSocketGateway,
   SubscribeMessage,
-  MessageBody, WebSocketServer,
+  MessageBody,
+  WebSocketServer,
+  WsResponse,
 } from '@nestjs/websockets';
 import { BookCommentService } from './book-comment.service';
 import { CreateBookCommentDto } from './dto/create-book-comment.dto';
@@ -18,25 +20,19 @@ export class BookCommentGateway {
   @WebSocketServer()
   server: Server;
 
-  @SubscribeMessage('createBookComment')
-  create(@MessageBody() createBookCommentDto: CreateBookCommentDto) {
-    return this.bookCommentService.create(createBookCommentDto);
+  @SubscribeMessage('addComment')
+  async create(@MessageBody() createBookCommentDto: CreateBookCommentDto):Promise<WsResponse<CreateBookCommentDto>> {
+    const newComment = await this.bookCommentService.createComment(
+      createBookCommentDto,
+    );
+
+    return { event: 'addComment', data: newComment };
   }
 
-  @SubscribeMessage('findAllBookComment')
-  findAll(@MessageBody() id: number) {
-    return this.bookCommentService.findAll(id);
+  @SubscribeMessage('getAllComments')
+  async findAll(@MessageBody() id: number):Promise<WsResponse<CreateBookCommentDto[]>> {
+    const comments = await this.bookCommentService.findAllBookComment(id);
+
+    return { event: 'getAllComments', data: comments };
   }
-
-
-
-  // @SubscribeMessage('events')
-  // findAll(@MessageBody() data: any): Observable<WsResponse<number>> {
-  //   return from([1, 2, 3]).pipe(map(item => ({ event: 'events', data: item })));
-  // }
-  //
-  // @SubscribeMessage('identity')
-  // async identity(@MessageBody() data: number): Promise<number> {
-  //   return data;
-  // }
 }

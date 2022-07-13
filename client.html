@@ -6,8 +6,15 @@
     socket.on('connect', function() {
       console.log('Connected');
 
-    //   socket.emit('events', { test: 'test' });
-    //   socket.emit('identity', 0, response =>
+      socket.emit('getAllComments', "625b080057a2eed20603d5f5");
+
+      socket.on('getAllComments', data => console.log(data));
+
+      socket.emit('addComment', {id: "625b080057a2eed20603d5f5", bookId: "625b080057a2eed20603d5f5", comment: 'test-comment'})
+
+      socket.on('addComment', data => console.log(data));
+
+      //   socket.emit('identity', 0, response =>
     //     console.log('Identity:', response),
     //   );
     });

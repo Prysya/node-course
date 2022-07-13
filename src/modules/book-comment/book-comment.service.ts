@@ -1,13 +1,24 @@
 import { Injectable } from '@nestjs/common';
 import { CreateBookCommentDto } from './dto/create-book-comment.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import {
+  BookComment,
+  BookCommentDocument,
+} from './schemas/book-comment.schema';
 
 @Injectable()
 export class BookCommentService {
-  create(createBookCommentDto: CreateBookCommentDto) {
-    return 'This action adds a new bookComment';
+  constructor(
+    @InjectModel(BookComment.name)
+    private readonly bookCommentDocumentModel: Model<BookCommentDocument>,
+  ) {}
+
+  createComment(createBookCommentDto: CreateBookCommentDto) {
+    return this.bookCommentDocumentModel.create(createBookCommentDto)
   }
 
-  findAll(id: number) {
-    return `This action returns all bookComment`;
+  findAllBookComment(id: number) {
+    return this.bookCommentDocumentModel.find({id})
   }
 }
