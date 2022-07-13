@@ -8,6 +8,7 @@ import {
 import { BookCommentService } from './book-comment.service';
 import { CreateBookCommentDto } from './dto/create-book-comment.dto';
 import { Server } from 'socket.io';
+import { randomUUID } from 'crypto';
 
 @WebSocketGateway({
   cors: {
@@ -21,9 +22,9 @@ export class BookCommentGateway {
   server: Server;
 
   @SubscribeMessage('addComment')
-  async create(@MessageBody() createBookCommentDto: CreateBookCommentDto):Promise<WsResponse<CreateBookCommentDto>> {
+  async create(@MessageBody() createBookCommentDto: Pick<CreateBookCommentDto, 'bookId' | 'comment'>):Promise<WsResponse<CreateBookCommentDto>> {
     const newComment = await this.bookCommentService.createComment(
-      createBookCommentDto,
+      { id: randomUUID(), ...createBookCommentDto },
     );
 
     return { event: 'addComment', data: newComment };
