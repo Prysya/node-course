@@ -22,7 +22,6 @@ export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard)
   findAll() {
     return this.booksService.findAll();
   }
