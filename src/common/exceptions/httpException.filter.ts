@@ -11,8 +11,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
-    const status = exception.getStatus();
-    const data = exception.getResponse();
+
+    const status = exception.getStatus ? exception.getStatus() : '';
+    const data = exception.getResponse ? exception.getResponse() : '';
 
     response.json({
       timestamp: new Date().toISOString(),

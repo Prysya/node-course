@@ -11,11 +11,33 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
-    readonly configService: ConfigService,
+    private readonly configService: ConfigService,
   ) {}
 
   async validateUser(id): Promise<Omit<CreateUserDto, 'password'> | null> {
     const user = await this.usersService.findUserById(id);
+
+    if (user) {
+      const { password, ...result } = user;
+      return result;
+    }
+
+    return null;
+  }
+
+  async validateUserByYandexId(yandexId): Promise<Omit<CreateUserDto, 'password'> | null> {
+    const user = await this.usersService.findUserByYandexId(yandexId);
+
+    if (user) {
+      const { password, ...result } = user;
+      return result;
+    }
+
+    return null;
+  }
+
+  async validateUserByYandexId(yandexId): Promise<Omit<CreateUserDto, 'password'> | null> {
+    const user = await this.usersService.findUserByYandexId(yandexId);
 
     if (user) {
       const { password, ...result } = user;

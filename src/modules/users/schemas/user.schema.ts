@@ -23,6 +23,9 @@ export class User {
 
   @Prop({ required: true })
   lastName: string;
+
+  @Prop()
+  yandexId: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

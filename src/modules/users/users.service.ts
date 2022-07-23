@@ -35,6 +35,10 @@ export class UsersService {
     return this.userModel.findOne({ id });
   }
 
+  findUserByYandexId(yandexId: string) {
+    return this.userModel.findOne({ yandexId });
+  }
+
   async createUser(createUserDto: CreateUserDto) {
     const user = {
       ...createUserDto,
